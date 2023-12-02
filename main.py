@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import caption
+from routers import caption, image
 
 app = FastAPI(
     title="Lauzhack 2023",
@@ -14,6 +14,7 @@ app = FastAPI(
     swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"},
 )
 
+app.include_router(image.router)
 app.include_router(caption.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
