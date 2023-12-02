@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
+from routers import caption
+
 app = FastAPI(
     title="Lauzhack 2023",
     description="AXA's challenge",
@@ -12,7 +14,7 @@ app = FastAPI(
     swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"},
 )
 
-# Routers
+app.include_router(caption.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
