@@ -1,6 +1,6 @@
-import io
+import os
+import uuid
 
-import torchaudio
 from fastapi import APIRouter, File, UploadFile
 from fastapi import status
 
@@ -13,6 +13,9 @@ router = APIRouter(
 
 service = SttService()
 
+TEMP_UPLOAD_DIR = "temp"
+os.makedirs(TEMP_UPLOAD_DIR, exist_ok=True)
+
 
 @router.post(
     "/",
@@ -22,6 +25,10 @@ service = SttService()
 def get_transcription(
         audio: UploadFile = File(...),
 ):
-    waveform, sample_rate = torchaudio.load(io.BytesIO(audio.file.read()))
-    audio_tensor = waveform.numpy()[0]
-    return service.get_transcription(audio_tensor)
+    temp_filename = str(uuid.uuid4()) + ".mp3"
+    temp_file_path = os.path.join(TEMP_UPLOAD_DIR, temp_filename)
+    with open(temp_file_path, "wb") as temp_file:
+        temp_file.write(audio.file.read())
+    transcription = service.get_transcription(temp_file_path)
+    os.remove(temp_file_path)
+    return transcription

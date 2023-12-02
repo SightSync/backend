@@ -1,5 +1,4 @@
 import torch
-from torch import Tensor
 from transformers import pipeline
 
 
@@ -18,14 +17,14 @@ class Whisper(metaclass=WhisperMeta):
     def __init__(self):
         self.pipe = pipeline(
             "automatic-speech-recognition",
-            model="distil-whisper/large-v2",
+            model="openai/whisper-large-v2",
             torch_dtype=torch.float16,
             device="cuda:0",
             model_kwargs={"use_flash_attention_2": True},
         )
 
-    def get_transcription(self, audio: Tensor) -> str:
-        outputs = self.pipe(audio,
+    def get_transcription(self, path: str) -> str:
+        outputs = self.pipe(path,
                             chunk_length_s=30,
                             batch_size=24,
                             return_timestamps=True)
