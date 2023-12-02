@@ -15,3 +15,4 @@ xformers
 accelerate
 cython
 numpy
+opencv-contrib-python
