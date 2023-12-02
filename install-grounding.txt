@@ -1,0 +1,9 @@
+mkdir -p gr_dino
+cd gr_dino/
+git clone https://github.com/IDEA-Research/GroundingDINO.git
+cd GroundingDINO
+git checkout -q 57535c5a79791cb76e36fdb64975271354f10251
+pip install -q -e .
+cd ..
+mkdir gr_dino/weights
+wget -q https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
