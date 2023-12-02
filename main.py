@@ -28,6 +28,8 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+# startup.load_cog()
+
 
 @app.get("/")
 def root():

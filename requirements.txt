@@ -3,3 +3,13 @@ uvicorn[standard]
 black
 pydantic
 python-multipart
+torch
+requests
+pillow
+transformers
+sentencepiece
+protobuf
+einops
+torchvision
+xformers
+accelerate
