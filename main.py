@@ -16,7 +16,6 @@ app = FastAPI(
 )
 
 app.include_router(image.router)
-# app.include_router(caption.router)
 app.include_router(locate.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
