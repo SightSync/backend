@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import caption, image
+from routers import image, locate
+from services import startup
 
 app = FastAPI(
     title="Lauzhack 2023",
@@ -15,7 +16,8 @@ app = FastAPI(
 )
 
 app.include_router(image.router)
-app.include_router(caption.router)
+# app.include_router(caption.router)
+app.include_router(locate.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -28,7 +30,7 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-# startup.load_cog()
+startup.load_grounding()
 
 
 @app.get("/")

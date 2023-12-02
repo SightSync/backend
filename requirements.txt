@@ -13,3 +13,5 @@ einops
 torchvision
 xformers
 accelerate
+cython
+numpy

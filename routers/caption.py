@@ -21,7 +21,7 @@ service = CaptionService()
     response_model=str,
     responses={**NOT_FOUND},
 )
-async def get_caption(
+def get_caption(
     image_name: str,
     query: str,
 ):
