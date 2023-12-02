@@ -3,12 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import image, locate, intent
+from routers import image, locate, intent, stt
 from services import startup
 
 app = FastAPI(
-    title="Lauzhack 2023",
-    description="AXA's challenge",
+    title="Lauzhack 2023 - AXA's challenge",
+    description="SightSync",
     docs_url="/docs",
     redoc_url="/redoc",
     version="0.1.0",
@@ -18,6 +18,7 @@ app = FastAPI(
 app.include_router(image.router)
 app.include_router(locate.router)
 app.include_router(intent.router)
+app.include_router(stt.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
