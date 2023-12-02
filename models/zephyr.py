@@ -1,3 +1,5 @@
+import re
+
 import torch
 from transformers import pipeline
 
@@ -32,8 +34,30 @@ class Zephyr(metaclass=ZephyrMeta):
         self.pipe = pipeline("text-generation", model="HuggingFaceH4/zephyr-7b-beta", torch_dtype=torch.bfloat16,
                              device_map="auto")
 
-    def get_intent(self, query: str):
+    def get_intent(self, query: str) -> str:
         MESSAGES[1] = {"role": "user", "content": query}
         prompt = self.pipe.tokenizer.apply_chat_template(MESSAGES, tokenize=False, add_generation_prompt=True)
         outputs = self.pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.4, top_k=50, top_p=0.95)
-        return outputs[0]["generated_text"]
+        text = outputs[0]["generated_text"]
+        return self._get_intent_category_from_response(text)
+
+    @staticmethod
+    def _get_intent_category_from_response(response: str) -> str:
+        last_newline_index = response.rfind('\n')
+
+        text_after_newline = response[last_newline_index + 1:]
+
+        location_match = re.search(r'\bLOCATION\b', text_after_newline)
+        general_match = re.search(r'\bGENERAL\b', text_after_newline)
+        text_match = re.search(r'\bTEXT\b', text_after_newline)
+
+        if location_match:
+            result = location_match.group()
+        elif general_match:
+            result = general_match.group()
+        elif text_match:
+            result = text_match.group()
+        else:
+            result = "UNCERTAIN"
+
+        return result

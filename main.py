@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import image, locate
+from routers import image, locate, intent
 from services import startup
 
 app = FastAPI(
@@ -17,6 +17,7 @@ app = FastAPI(
 
 app.include_router(image.router)
 app.include_router(locate.router)
+app.include_router(intent.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
