@@ -1,4 +1,7 @@
-from fastapi import APIRouter
+import io
+
+import torchaudio
+from fastapi import APIRouter, File, UploadFile
 from fastapi import status
 
 from services.stt import SttService
@@ -17,6 +20,8 @@ service = SttService()
     response_model=str,
 )
 def get_transcription(
-        audio: bytes,
+        audio: UploadFile = File(...),
 ):
-    return service.get_transcription(audio)
+    waveform, sample_rate = torchaudio.load(io.BytesIO(audio.file.read()))
+    audio_tensor = waveform.numpy()[0]
+    return service.get_transcription(audio_tensor)

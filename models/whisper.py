@@ -1,4 +1,5 @@
 import torch
+from torch import Tensor
 from transformers import pipeline
 
 
@@ -23,7 +24,7 @@ class Whisper(metaclass=WhisperMeta):
             model_kwargs={"use_flash_attention_2": True},
         )
 
-    def get_transcription(self, audio: bytes) -> str:
+    def get_transcription(self, audio: Tensor) -> str:
         outputs = self.pipe(audio,
                             chunk_length_s=30,
                             batch_size=24,

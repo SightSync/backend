@@ -10,3 +10,4 @@ accelerate
 cython
 numpy
 opencv-contrib-python
+torchaudio
