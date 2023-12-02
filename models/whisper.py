@@ -28,4 +28,4 @@ class Whisper(metaclass=WhisperMeta):
                             chunk_length_s=30,
                             batch_size=24,
                             return_timestamps=True)
-        return outputs[0]["text"]
+        return outputs["text"]
