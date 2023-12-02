@@ -1,0 +1,13 @@
+Given there is a user interacting with a blind people virtual assitant, that is designed to provide descprtion about the user environment, I need you to classify the user sentences intent between:
+1.  General surrounding/environment description/information. Knowing about what items are there on the surroundings.
+2. Specific location of an item.
+3. Information about text/labels.
+
+Here are some sentences you have to classify, you MUST classify each sentence into one category:
+A. Can you tell me what's on this room?
+B. Where is the bottle exactly located?
+C. Is my phone to my right?
+D. Describe the surroundings
+E. Is there a chair in front of me?
+F. How many students are there
+G. What does that sign say?
