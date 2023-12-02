@@ -3,6 +3,7 @@ import os
 from fastapi import APIRouter, HTTPException
 from fastapi import status
 
+from schemas.direction import Direction
 from schemas.errors import NOT_FOUND, NOT_ACCEPTABLE
 from services.image import UPLOAD_IMG_DIR
 from services.locate import LocateService
@@ -18,7 +19,7 @@ service = LocateService()
 @router.post(
     "/",
     status_code=status.HTTP_200_OK,
-    response_model=str,
+    response_model=list[Direction],
     responses={**NOT_FOUND, **NOT_ACCEPTABLE},
 )
 def locate(
