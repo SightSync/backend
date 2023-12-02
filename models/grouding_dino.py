@@ -27,12 +27,10 @@ class GroundingDino(metaclass=GroundingDinoMeta):
             model_checkpoint_path=self.checkpoint_path,
         )
 
-    def predict(self, search_class: str, image: np.ndarray):
-        detections = self.model.predict_with_classes(
+    def predict(self, search_class: str, image: np.ndarray) -> np.ndarray:
+        return self.model.predict_with_classes(
             image=image,
             classes=[search_class],
             box_threshold=0.35,
             text_threshold=0.25,
-        )
-        print(detections)
-        return detections
+        ).xyxy
