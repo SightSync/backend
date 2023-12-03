@@ -17,6 +17,7 @@ class LocateService:
     def predict(self, img_name: str, class_name: str) -> Optional[list[Direction]]:
         image = cv2.imread(f"{UPLOAD_IMG_DIR}/{img_name}")
         coordinates = self.grounding_dino.predict(class_name, image)
+        coordinates = [coord for coord in coordinates if not coord.tolist() == []]
         if not coordinates:
             return None
         center_points = [self._get_center_point(coord) for coord in coordinates]

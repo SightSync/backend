@@ -61,3 +61,36 @@ class Zephyr(metaclass=ZephyrMeta):
             result = "UNCERTAIN"
 
         return result
+
+    def get_class_for(self, query: str) -> str:
+        extract_class_message = [
+            {
+                "role": "system",
+                "content": "Given there is a user interacting with a blind people virtual assistant\
+                 that is designed to provide a description about the user environment, I need you to extract the \
+                 class name from the user sentence. The class name is the name of the item that the user is asking about. \
+                 For example, if the user asks 'Where is the chair?', the class name is 'chair'. \
+                If you think the user is not asking about an item or your are not sure about which item is it looking for, just say 'NO CLASS'. Otherwise, ONLY reply with ONE word, the class name.",
+            },
+            {"role": "user", "content": query},
+        ]
+        prompt = self.pipe.tokenizer.apply_chat_template(extract_class_message, tokenize=False,
+                                                          add_generation_prompt=True)
+        outputs = self.pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.4, top_k=50, top_p=0.95)
+        text = outputs[0]["generated_text"]
+        return self._get_class_from_response(text)
+
+    @staticmethod
+    def _get_class_from_response(response: str) -> str:
+        last_newline_index = response.rfind('\n')
+
+        text_after_newline = response[last_newline_index + 1:]
+
+        class_match = re.search(r'\b[a-zA-Z]+\b', text_after_newline)
+
+        if class_match:
+            result = class_match.group()
+        else:
+            result = ""
+
+        return result

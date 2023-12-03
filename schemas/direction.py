@@ -1,8 +1,8 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class Direction(Enum):
-    UP = auto()
-    DOWN = auto()
-    LEFT = auto()
-    RIGHT = auto()
+    UP = "UP"
+    DOWN = "DOWN"
+    LEFT = "LEFT"
+    RIGHT = "RIGHT"

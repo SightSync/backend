@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 from schemas.errors import INVALID_REQUEST, NOT_FOUND
 from services.image import save_image, UPLOAD_IMG_DIR
 
-IMAGE_MIME_TYPES = ["image/jpeg", "image/png"]
+IMAGE_MIME_TYPES = ["image/jpeg", "image/png", "image/jpg"]
 
 router = APIRouter(
     prefix="/image",
@@ -28,6 +28,8 @@ async def upload_image(
         raise HTTPException(status_code=400, detail="Image must be a JPEG or PNG file")
     if image.content_type == "image/jpeg":
         return save_image(image, "jpeg")
+    if image.content_type == "image/jpg":
+        return save_image(image, "jpg")
     else:
         return save_image(image, "png")
 
