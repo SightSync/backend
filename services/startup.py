@@ -5,5 +5,6 @@ from models.zephyr import Zephyr
 def load_grounding():
     GroundingDino()
 
+
 def load_zephyr():
     Zephyr()
